@@ -17,4 +17,4 @@ if __name__ == "__main__":
 
     match user_choice:
         case 1:
-            subprocess.run("pause", shell=True)
+            subprocess.run("pause", shell=True, check=False)
