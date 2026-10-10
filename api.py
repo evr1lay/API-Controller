@@ -32,3 +32,6 @@ def add_message(payload: MessageAddSchema) -> dict:
     new_message = MessageSchema(id=str(uuid4()), content=payload.content)
     messages.append(new_message)
     return {"success": True}
+
+if __name__ == "__main__":
+    pass

@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
         match user_choice:
             case 1:
-                pass
+                subprocess.run("cls", shell=True, check=False)
             case 2:
                 subprocess.run("pause", shell=True, check=False)
             case 3:
