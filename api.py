@@ -32,9 +32,3 @@ def add_message(payload: MessageAddSchema) -> dict:
     new_message = MessageSchema(id=str(uuid4()), content=payload.content)
     messages.append(new_message)
     return {"success": True}
-
-def api_on(port) -> bool:
-    config = uvicorn.Config("api:app", port=port, reload=True)
-    server = uvicorn.Server(config)
-    server.run()
-    return True

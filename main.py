@@ -1,6 +1,5 @@
 import subprocess
 
-from api import api_on
 from requester import Requester
 
 url = "http://localhost:8000/messages"
@@ -18,4 +17,4 @@ if __name__ == "__main__":
 
     match user_choice:
         case 1:
-            subprocess.run("")
+            subprocess.run("pause", shell=True)
