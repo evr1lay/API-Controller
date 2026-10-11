@@ -38,6 +38,8 @@ if __name__ == "__main__":
                 content = str(input("Your content: "))
                 response = req.post(content)
                 print("Successful!" if response.status_code == 200 else "Errors.")
+
+                subprocess.run("pause", shell=True, check=False)
             case 4:
                 print("bye")
                 sleep(1.5)
