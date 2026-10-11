@@ -13,10 +13,10 @@ class Requester:
             return False
 
     def get(self):
-        """returns .json() of GET method"""
+        """returns Response of GET method"""
         return requests.get(self.url)
 
     def post(self, message_content: str):
-        """returns .json() of POST method"""
+        """returns Response of POST method"""
         json = {"content": message_content}
         return requests.post(self.url, json=json)
