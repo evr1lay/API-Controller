@@ -8,9 +8,9 @@ from pydantic import BaseModel
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("📗 API is running")
+    print("[|] API is running")
     yield
-    print("📕 API is stopped")
+    print("[X] API is stopped")
 
 app = FastAPI(lifespan=lifespan)
 

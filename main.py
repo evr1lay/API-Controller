@@ -8,7 +8,7 @@ req = Requester(url=url)
 
 def show_menu():
     subprocess.run("cls", shell=True, check=False)
-    print(f"[X] API STATUS: {"✅ ON" if req.is_api_running() else "⛔ OFF"}.\n"
+    print(f"[X] API STATUS: {"ON" if req.is_api_running() else "OFF"}.\n"
         "[1] Turn on API. (WIP)\n"
         "[2] GET.\n"
         "[3] POST.\n"
