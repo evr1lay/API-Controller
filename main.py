@@ -1,4 +1,5 @@
 import subprocess
+from time import sleep
 
 from requester import Requester
 
@@ -8,7 +9,7 @@ req = Requester(url=url)
 def show_menu():
     subprocess.run("cls", shell=True, check=False)
     print(f"[X] API STATUS: {"✅ ON" if req.is_api_running() else "⛔ OFF"}.\n"
-        "[1] Turn on API.\n"
+        "[1] Turn on API. (WIP)\n"
         "[2] GET.\n"
         "[3] POST.\n"
         "[4] Exit.\n")
@@ -23,12 +24,21 @@ if __name__ == "__main__":
             input("Number please! Press Enter to continue...")
             continue
 
+        subprocess.run("cls", shell=True, check=False)
+
         match user_choice:
             case 1:
-                subprocess.run("cls", shell=True, check=False)
+                pass
             case 2:
+                response = req.get()
+                print(response.json())
+
                 subprocess.run("pause", shell=True, check=False)
             case 3:
-                pass
+                content = str(input("Your content: "))
+                response = req.post(content)
+                print("Successful!" if response.status_code == 200 else "Errors.")
             case 4:
+                print("bye")
+                sleep(1.5)
                 break
