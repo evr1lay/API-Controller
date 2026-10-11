@@ -7,7 +7,7 @@ req = Requester(url=url)
 
 def show_menu():
     subprocess.run("cls", shell=True, check=False)
-    print(f"[X] API STATUS: {req.is_api_running()}.\n"
+    print(f"[X] API STATUS: {"✅ ON" if req.is_api_running() else "⛔ OFF"}.\n"
         "[1] Turn on API.\n"
         "[2] GET.\n"
         "[3] POST.\n"
@@ -20,7 +20,7 @@ if __name__ == "__main__":
         try:
             user_choice = int(input("Your choice: "))
         except ValueError:
-            input("Number please! Press Enter to continue")
+            input("Number please! Press Enter to continue...")
             continue
 
         match user_choice:
