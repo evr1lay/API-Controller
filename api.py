@@ -34,4 +34,6 @@ def add_message(payload: MessageAddSchema) -> dict:
     return {"success": True}
 
 if __name__ == "__main__":
-    pass
+    config = uvicorn.Config("api:app", reload=True, port=8000)
+    server = uvicorn.Server(config)
+    server.run()
