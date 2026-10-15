@@ -14,9 +14,12 @@ class Requester:
 
     def get(self):
         """returns Response of GET method"""
-        return requests.get(self.url)
+        return requests.get(self.url, timeout=1)
 
     def post(self, message_content: str):
         """returns Response of POST method"""
         json = {"content": message_content}
-        return requests.post(self.url, json=json)
+        return requests.post(self.url, json=json, timeout=1)
+
+    def patch(self, payload):
+        pass
