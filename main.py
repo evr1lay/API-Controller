@@ -31,7 +31,6 @@ if __name__ == "__main__":
                 pass
             case 2:
                 response = req.get()
-                print(response.json())
 
                 subprocess.run("pause", shell=True, check=False)
             case 3:
