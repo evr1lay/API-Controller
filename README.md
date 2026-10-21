@@ -6,5 +6,5 @@ idk. the idea came to me literally out of nowhere, I was doing a simple fastapi 
 
 > Of course, in the case of the fastapi framework, there is a whole lot of embedded documentation(Swagger UI), but I decided anyway.
 
-[!IMPORTANT]
-To put it simply, it's just a console swagger.
+> [!IMPORTANT]
+> To put it simply, it's just a console swagger.
