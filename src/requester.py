@@ -14,13 +14,12 @@ class Requester:
 
     def get(self) -> requests.Response:
         """API GET-method."""
-        return requests.get(self.url, timeout=1)
+        response = requests.get(self.url, timeout=1)
+        response.raise_for_status()
+        return response
 
-    def post(self, payload: dict | None = None) -> requests.Response | None:
+    def post(self, payload: dict) -> requests.Response:
         """API POST-method."""
-        if payload is None:
-            return None
-
         response = requests.post(
             self.url,
             json=payload,
