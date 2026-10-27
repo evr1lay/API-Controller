@@ -33,7 +33,7 @@ def add_message(payload: MessageAddSchema) -> dict:
     messages.append(new_message)
     return {"success": True}
 
-@app.patch("/message/{message_id}")
+@app.patch("/messages/{message_id}")
 def update_message(message_id: str, payload: MessageUpdateSchema):
     for message in messages:
         if message.id == message_id and payload.content:
