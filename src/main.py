@@ -2,6 +2,8 @@ import json
 import subprocess
 from time import sleep
 
+import requests
+
 from requester import Requester
 
 
@@ -36,19 +38,24 @@ if __name__ == "__main__":
                 print(response.text)
                 subprocess.run("pause", shell=True, check=False)
             case 2:
-                print('Preview: "content": "Hello, World!"')
-                raw = input("Payload (""): ")
+                print('Preview: {"content": "Hello, World!"}')
+                raw = input('Payload: ').strip()
+
+                if not raw.startswith("{"):
+                    raw = "{" + raw + "}"
+
                 try:
                     payload = json.loads(raw)
                 except json.JSONDecodeError:
                     print("Invalid JSON")
+                    subprocess.run("pause", shell=True, check=False)
                     continue
 
-                response = req.post(payload=payload)
-                if response != None and response.status_code == 200:
+                try:
+                    response = req.post(payload=payload)
                     print("Successful!")
-                else:
-                    print("Response is None or something")
+                except requests.exceptions.RequestException as e:
+                    print(f"Request failed: {e}")
 
                 subprocess.run("pause", shell=True, check=False)
             case 3:
