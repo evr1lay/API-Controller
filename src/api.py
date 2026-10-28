@@ -40,6 +40,13 @@ def update_message(message_id: str, payload: MessageUpdateSchema):
             message.content = payload.content
         return
 
+@app.delete("/messages/{message_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_message(message_id: str):
+    for message in messages:
+        if message.id == message_id:
+            messages.remove(message)
+        return
+
 if __name__ == "__main__":
     config = uvicorn.Config("api:app", reload=True, port=8000)
     server = uvicorn.Server(config)
