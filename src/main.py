@@ -22,6 +22,10 @@ if __name__ == "__main__":
     req = Requester(url=url)
 
     while True:
+        if req.is_api_running() != True:
+            input("API is not running...")
+            break
+
         show_menu(req.url)
 
         try:
@@ -38,7 +42,7 @@ if __name__ == "__main__":
                 print(response.text)
                 subprocess.run("pause", shell=True, check=False)
             case 2:
-                print('Preview: {"content": "Hello, World!"}')
+                print('Preview: {"endpoint": "value"}')
                 raw = input('Payload: ').strip()
 
                 if not raw.startswith("{"):
@@ -66,3 +70,5 @@ if __name__ == "__main__":
                 print("bye")
                 sleep(1.5)
                 break
+            case _:
+                input("Invalid choice...")
