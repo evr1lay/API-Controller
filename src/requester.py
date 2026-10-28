@@ -30,9 +30,6 @@ class Requester:
 
     def patch(self, id: int | str, payload: dict | None = None) -> requests.Response | None:
         """API PATCH-method."""
-        if payload is None:
-            return None
-
         response = requests.patch(
             f"{self.url}/{id}",
             json=payload,
