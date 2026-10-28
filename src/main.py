@@ -63,7 +63,28 @@ if __name__ == "__main__":
 
                 subprocess.run("pause", shell=True, check=False)
             case 3:
-                pass
+                content_id: int | str = input("Content ID: ")
+
+                print('Preview: {"endpoint": "value"}')
+                raw = input('Payload: ').strip()
+
+                if not raw.startswith("{"):
+                    raw = "{" + raw + "}"
+
+                try:
+                    payload = json.loads(raw)
+                except json.JSONDecodeError:
+                    print("Invalid JSON")
+                    subprocess.run("pause", shell=True, check=False)
+                    continue
+
+                try:
+                    response = req.patch(id=content_id, payload=payload)
+                    print("Successful!")
+                except requests.exceptions.RequestException as e:
+                    print(f"Request failed: {e}")
+
+                subprocess.run("pause", shell=True, check=False)
             case 4:
                 pass
             case 5:
