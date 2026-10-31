@@ -1,14 +1,20 @@
 import json
+import os
 import subprocess
-from time import sleep
 
 import requests
 
 from requester import Requester
 
+def clear() -> None:
+    subprocess.run(
+        ["cls"] if os.name == "nt" else ["clear"],
+        shell=False,
+        check=False,
+    )
 
 def show_menu(url):
-    subprocess.run("cls", shell=True, check=False)
+    clear()
     print(f"Choice http-method for {url}\n"
         "[1] Get.\n"
         "[2] Post.\n"
@@ -17,7 +23,7 @@ def show_menu(url):
         "[5] Exit.\n")
 
 if __name__ == "__main__":
-    subprocess.run("cls", shell=True, check=False)
+    clear()
     url = input("Your API URL: ")
     req = Requester(url=url)
 
@@ -34,7 +40,7 @@ if __name__ == "__main__":
             input("Number please! Press Enter to continue...")
             continue
 
-        subprocess.run("cls", shell=True, check=False)
+        clear()
 
         match user_choice:
             case 1:
@@ -63,7 +69,7 @@ if __name__ == "__main__":
 
                 subprocess.run("pause", shell=True, check=False)
             case 3:
-                content_id: int | str = input("Content ID: ")
+                for_update_id: int | str = input("Content ID: ")
 
                 print('Preview: {"endpoint": "value"}')
                 raw = input('Payload: ').strip()
@@ -79,17 +85,23 @@ if __name__ == "__main__":
                     continue
 
                 try:
-                    response = req.patch(id=content_id, payload=payload)
+                    response = req.patch(id=for_update_id, payload=payload)
                     print("Successful!")
                 except requests.exceptions.RequestException as e:
                     print(f"Request failed: {e}")
 
                 subprocess.run("pause", shell=True, check=False)
             case 4:
-                pass
+                for_delete_id: int | str = input("Content ID: ")
+
+                try:
+                    response = req.delete(for_delete_id)
+                except requests.exceptions.RequestException as e:
+                    print(f"Request failed: {e}")
+
+                subprocess.run("pause", shell=True, check=False)
             case 5:
-                print("bye")
-                sleep(1.5)
+                input("bye...")
                 break
             case _:
                 input("Invalid choice...")
