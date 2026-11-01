@@ -3,7 +3,7 @@ from typing import Annotated
 from uuid import uuid4
 
 import uvicorn
-from fastapi import Depends, FastAPI, status
+from fastapi import Depends, FastAPI, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
@@ -39,7 +39,6 @@ class MessageAddSchema(BaseModel):
 
 class MessageUpdateSchema(BaseModel):
     content: str | None = None
-    author:  str | None = None
 
 def get_db():
     db = SessionLocal()
@@ -66,11 +65,21 @@ def add_message(payload: MessageAddSchema, db: Annotated[Session, Depends(get_db
 
 @app.patch("/messages/{message_id}")
 def update_message(message_id: str, payload: MessageUpdateSchema, db: Annotated[Session, Depends(get_db)]):
-    ...
+    message_for_update = db.get(MessageORM, message_id)
+    if message_for_update and payload.content:
+        message_for_update.content = payload.content
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Message not found")
+
+    db.commit()
+    return orm_to_model(message_for_update)
 
 @app.delete("/messages/{message_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_message(message_id: str, db: Annotated[Session, Depends(get_db)]):
-    ...
+    message_for_delete = db.get(MessageORM, message_id)
+    if not message_for_delete:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Message not found")
+
 
 if __name__ == "__main__":
     config = uvicorn.Config("api:app", reload=True, port=8000)
