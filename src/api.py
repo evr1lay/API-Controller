@@ -66,10 +66,10 @@ def add_message(payload: MessageAddSchema, db: Annotated[Session, Depends(get_db
 @app.patch("/messages/{message_id}")
 def update_message(message_id: str, payload: MessageUpdateSchema, db: Annotated[Session, Depends(get_db)]):
     message_for_update = db.get(MessageORM, message_id)
-    if message_for_update and payload.content:
-        message_for_update.content = payload.content
-    else:
+    if not message_for_update:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Message not found")
+    if payload.content:
+        message_for_update.content = payload.content
 
     db.commit()
     return orm_to_model(message_for_update)
@@ -80,6 +80,8 @@ def delete_message(message_id: str, db: Annotated[Session, Depends(get_db)]):
     if not message_for_delete:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Message not found")
 
+    db.delete(message_for_delete)
+    db.commit()
 
 if __name__ == "__main__":
     config = uvicorn.Config("api:app", reload=True, port=8000)
