@@ -31,6 +31,7 @@ app = FastAPI(lifespan=lifespan)
 class MessageSchema(BaseModel):
     id: str
     content: str
+    author: str
 
 class MessageAddSchema(BaseModel):
     content: str
@@ -48,7 +49,7 @@ def get_db():
         db.close()
 
 def orm_to_model(message_orm: MessageORM) -> MessageSchema:
-    return MessageSchema(id=message_orm.id, content=message_orm.content)
+    return MessageSchema(id=message_orm.id, content=message_orm.content, author=message_orm.author)
 
 @app.get("/messages")
 def get_messages(db: Annotated[Session, Depends(get_db)]) -> list[MessageSchema]:
@@ -56,8 +57,12 @@ def get_messages(db: Annotated[Session, Depends(get_db)]) -> list[MessageSchema]
     return [orm_to_model(msg) for msg in messages_from_db]
 
 @app.post("/messages", status_code=status.HTTP_201_CREATED)
-def add_message(payload: MessageAddSchema, db: Annotated[Session, Depends(get_db)]) -> dict:
-    ...
+def add_message(payload: MessageAddSchema, db: Annotated[Session, Depends(get_db)]) -> MessageSchema:
+    new_message = MessageORM(content=payload.content, author=payload.author)
+    db.add(new_message)
+    db.commit()
+
+    return orm_to_model(new_message)
 
 @app.patch("/messages/{message_id}")
 def update_message(message_id: str, payload: MessageUpdateSchema, db: Annotated[Session, Depends(get_db)]):
